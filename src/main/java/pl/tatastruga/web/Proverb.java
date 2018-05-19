@@ -1,9 +1,22 @@
 package pl.tatastruga.web;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="proverbs")
 public class Proverb
 {
+	@Id
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="proverb")
 	private String proverb;
+	
+	@Column(name="meaning")
 	private String meaning;
 	
 	public Proverb(int id, String proverb, String meaning)

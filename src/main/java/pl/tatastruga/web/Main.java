@@ -1,5 +1,10 @@
 package pl.tatastruga.web;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -12,6 +17,37 @@ public class Main
 		Proverb proverb2 = new Proverb("Czego Jaś się nie nauczy, tego Jan nie będzie umiał!",
 				"Przysłowie to mówi nam, że wiedza i umiejętności, które zdobywamy w czasie dzieciństwa pozostają nam na całe życie. \nDlatego ważne jest aby w dzieciństwie nabrać odpowiednich cech charakteru, które ukształtują nas na resztę naszego życia.");
 
+		 Connection myConn = null;
+		 Statement myStmt = null;
+		 ResultSet myRs = null;
+		 
+		 String dbUrl = "jdbc:mysql://s43.linuxpl.com/creall_proverbs";
+		 String user = "creall_provUser";
+		 String pass = "tzfyJExk";
+
+		 try 
+		 {
+		    myConn =  DriverManager.getConnection(dbUrl, user, pass);
+		 
+		    System.out.println("Połączono z bazą");
+		    
+		    myStmt  =  myConn.createStatement();
+		    
+		    myRs = myStmt.executeQuery("SELECT id, meaning FROM proverbs WHERE proverb LIKE '%bab%'  ");
+		    
+		    while(myRs.next())
+		    {
+		    System.out.println(myRs.getString("id")+". "+myRs.getString("meaning"));
+		     }
+		       
+		 } catch (SQLException ex)
+		 {
+			 ex.printStackTrace();
+		 }
+		
+		
+		
+		
 		Scanner input = new Scanner(System.in);
 
 		char[] proverbChars = proverb.getProverb().toCharArray();
@@ -48,7 +84,7 @@ public class Main
 
 			do
 			{
-				System.out.println("Podaj jedną literę:\n");
+				System.out.println("Podaj jedną literę: \n");
 				userChar = input.next();
 
 			} while (userChar.length() != 1 || Character.isDigit(userChar.charAt(0)));
