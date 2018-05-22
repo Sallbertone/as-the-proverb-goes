@@ -24,85 +24,88 @@ public class Main
 	public static void main(String[] args)
 	{
 
-		ArrayList<String> proverbsList = new ArrayList<String>();
-		ArrayList<String> meaningsList = new ArrayList<String>();
-
 		Proverb proverb = null;
 
-		Document doc = null;
-
-		// connection to web page for scraping
-		try
-		{
-			doc = Jsoup.connect("https://www.polskatradycja.pl/folklor/przyslowia.html").userAgent("Mozilla/5.0").get();
-			System.out.println("connected");
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		// web scraping for proverbs and storing in list
-		Elements webProverbs = doc.select("tr.row0");
-
-		for (Element tempWebProverb : webProverbs)
-		{
-			proverbsList.add(tempWebProverb.getElementsByTag("a").first().text());
-		}
-
-		webProverbs = doc.select("tr.row1");
-
-		for (Element tempWebProverb : webProverbs)
-		{
-			proverbsList.add(tempWebProverb.getElementsByTag("a").first().text());
-		}
-
-		// web scraping for meanings and storing in list
-		Elements webMeanings = doc.select("tr.row0");
-
-		for (Element tempWebMeanings : webMeanings)
-		{
-			meaningsList.add(tempWebMeanings.getElementsByTag("p").first().text());
-		}
-
-		webMeanings = doc.select("tr.row1");
-
-		for (Element tempWebMeanings : webMeanings)
-		{
-			meaningsList.add(tempWebMeanings.getElementsByTag("p").first().text());
-		}
-
+//All code for web sraping and saving data in DB (succesfully used, commented)
 		
-		// create Hibernate session factory
-		SessionFactory factory = new Configuration()
-									.configure("hibernate.cfg.xml")
-									.addAnnotatedClass(Proverb.class)
-									.buildSessionFactory();
-
-		// create session
-		Session session = factory.getCurrentSession();
-
-		try
-		{
-			//saving proverbs and meanings in DB
-			for (int i = 0; i < proverbsList.size(); i++)
-			{
-				// create a Proverb oject
-				Proverb tempProverb = new Proverb(proverbsList.get(i), meaningsList.get(i));
-				
-				session.beginTransaction();
-				session.save(tempProverb);
-				session.getTransaction().commit();
-				session.close();
-				
-				//restoring session
-				session = factory.getCurrentSession();
-			}
-
-		} 
-		finally
-		{
-			factory.close();
-		}
+//		ArrayList<String> proverbsList = new ArrayList<String>();
+//		ArrayList<String> meaningsList = new ArrayList<String>();
+//
+//		Document doc = null;
+//
+//		// connection to web page for scraping
+//		try
+//		{
+//			doc = Jsoup.connect("https://www.polskatradycja.pl/folklor/przyslowia.html").userAgent("Mozilla/5.0").get();
+//			System.out.println("connected");
+//		} catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		// web scraping for proverbs and storing in list
+//		Elements webProverbs = doc.select("tr.row0");
+//
+//		for (Element tempWebProverb : webProverbs)
+//		{
+//			proverbsList.add(tempWebProverb.getElementsByTag("a").first().text());
+//		}
+//
+//		webProverbs = doc.select("tr.row1");
+//
+//		for (Element tempWebProverb : webProverbs)
+//		{
+//			proverbsList.add(tempWebProverb.getElementsByTag("a").first().text());
+//		}
+//
+//		// web scraping for meanings and storing in list
+//		Elements webMeanings = doc.select("tr.row0");
+//
+//		for (Element tempWebMeanings : webMeanings)
+//		{
+//			meaningsList.add(tempWebMeanings.getElementsByTag("p").first().text());
+//		}
+//
+//		webMeanings = doc.select("tr.row1");
+//
+//		for (Element tempWebMeanings : webMeanings)
+//		{
+//			meaningsList.add(tempWebMeanings.getElementsByTag("p").first().text());
+//		}
+//
+//		
+//		// create Hibernate session factory
+//		SessionFactory factory = new Configuration()
+//									.configure("hibernate.cfg.xml")
+//									.addAnnotatedClass(Proverb.class)
+//									.buildSessionFactory();
+//
+//		// create session
+//		Session session = factory.getCurrentSession();
+//
+//		try
+//		{
+//			//saving proverbs and meanings in DB
+//			
+//			session.beginTransaction();
+//			
+//			for (int i = 0; i < proverbsList.size(); i++)
+//			{
+//				// create a Proverb oject
+//				Proverb tempProverb = new Proverb(proverbsList.get(i), meaningsList.get(i));
+//				
+//				session.save(tempProverb);
+//
+//			}
+//			
+//			session.getTransaction().commit();
+//			session.close();
+//			
+//		} 
+//		finally
+//		{
+//			factory.close();
+//		}
 
 		//testing DB connection and stored data
 		Connection myConn = null;
@@ -117,11 +120,9 @@ public class Main
 		{
 			myConn = DriverManager.getConnection(dbUrl, user, pass);
 
-			System.out.println("Połączono z bazą");
-
 			myStmt = myConn.createStatement();
 
-			myRs = myStmt.executeQuery("SELECT * FROM proverbs WHERE id=60");
+			myRs = myStmt.executeQuery("SELECT * FROM proverbs WHERE id=160");
 
 			while (myRs.next())
 			{
