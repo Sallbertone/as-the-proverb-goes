@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.hibernate.Session;
@@ -23,8 +25,11 @@ public class Main
 
 	public static void main(String[] args)
 	{
-
+	//	List<Integer> idList = new LinkedList<Integer>();
 		Proverb proverb = null;
+//		ProverbDAO proverbDAO = new ProverbDAO();
+//		idList = proverbDAO.getIdList();
+//		System.out.println(idList);
 
 //All code for web sraping and saving data in DB (succesfully used, commented)
 		
@@ -122,7 +127,7 @@ public class Main
 
 			myStmt = myConn.createStatement();
 
-			myRs = myStmt.executeQuery("SELECT * FROM proverbs WHERE id=160");
+			myRs = myStmt.executeQuery("SELECT * FROM proverbs WHERE id=50");
 
 			while (myRs.next())
 			{

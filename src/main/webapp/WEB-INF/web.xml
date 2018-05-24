@@ -12,6 +12,6 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>CharadesControllerServlet</servlet-name>
-  	<url-pattern>/CharadesControllerServlet</url-pattern>
+  	<url-pattern>/charades</url-pattern>
   </servlet-mapping>
 </web-app>
