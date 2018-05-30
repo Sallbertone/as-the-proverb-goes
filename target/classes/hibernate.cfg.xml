@@ -10,7 +10,7 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://s43.linuxpl.com/creall_proverbs?serverTimezone=UTC</property>
         <property name="connection.username">creall_provUser</property>
-        <property name="connection.password">tzfyJExk</property>
+        <property name="connection.password">xxx</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>

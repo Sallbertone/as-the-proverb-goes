@@ -14,17 +14,14 @@
 
 <h3>
 <c:out value="${CHARADE_MEANING}"/>
-${CHARADE_MEANING}
+
 </h3>
 <br><br>
-<h3>
-request.getAttribute(CHARADE_HIDDEN)
-</h3>
+
 <footer>
 	<div class="container">
 		<p>Piotr Szewczul<br>
-		piotr.szewczul@gmaii.com<br>
-		605182777</p>
+		</p>
 	</div>	
 </footer>
 

@@ -46,22 +46,7 @@ public class CharadesControllerServlet extends HttpServlet
 			case "NEXTCHARADE":
 				getProverbById(chooseCharadeId(idList));
 				break;
-			//
-			// case "DELETE":
-			// deleteContact(request, response);
-			// break;
-			//
-			// case "SORT":
-			// if("allcircles".equals(request.getParameter("circle")))
-			// listContact(request, response);
-			// else
-			// {
-			// sortByCircle(request, response);
-			// }
-			// break;
-			//
-			// default:
-			// listContact(request, response);
+
 			}
 
 		} catch (Exception e)
