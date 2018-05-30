@@ -10,19 +10,21 @@ import org.hibernate.cfg.Configuration;
 public class ProverbDAO
 {
 
-	SessionFactory factory = new Configuration()
-								.configure("hibernate.cfg.xml")
-								.addAnnotatedClass(Proverb.class)
-								.buildSessionFactory();
-
-	Session session = null;
+	Proverb proverb = new Proverb();
+	SessionFactory factory;
+	Session session;
+	
+	List<Integer> idList = new LinkedList<Integer>();
 
 	
+
 	public List<Integer> getIdList()
 	{
-
-		List<Integer> idList = new LinkedList<Integer>();
-
+		factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(Proverb.class)
+				.buildSessionFactory();
+		
 		session = factory.getCurrentSession();
 		session.beginTransaction();
 
@@ -43,7 +45,7 @@ public class ProverbDAO
 		session = factory.getCurrentSession();
 		session.beginTransaction();
 
-		Proverb proverb = (Proverb) session.createQuery("FROM Proverb p WHERE p.id =" + id);
+		proverb = (Proverb) session.createQuery("FROM Proverb P WHERE P.id = " + id).getSingleResult();
 
 		session.getTransaction().commit();
 		session.close();

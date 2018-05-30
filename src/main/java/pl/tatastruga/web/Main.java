@@ -112,12 +112,40 @@ public class Main
 //			factory.close();
 //		}
 
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(Proverb.class)
+				.buildSessionFactory();
+
+Session session = null;
+
+
+
+System.out.println("w metodzie");
+List<Integer> idList = new LinkedList<Integer>();
+
+session = factory.getCurrentSession();
+session.beginTransaction();
+
+idList = session.createQuery("SELECT id FROM Proverb").getResultList();
+
+System.out.println(idList.get(10));
+
+session.getTransaction().commit();
+session.close();
+
+
+
+
+		
+		
 		//testing DB connection and stored data
 		Connection myConn = null;
 		Statement myStmt = null;
 		ResultSet myRs = null;
 
-		String dbUrl = "jdbc:mysql://s43.linuxpl.com/creall_proverbs";
+		String dbUrl = "jdbc:mysql://s43.linuxpl.com/creall_proverbs?serverTimezone=UTC";
 		String user = "creall_provUser";
 		String pass = "tzfyJExk";
 

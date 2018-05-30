@@ -20,7 +20,7 @@ public class CharadesControllerServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	ProverbDAO proverbDAO;
+	ProverbDAO proverbDAO = new ProverbDAO();
 	List<Integer> idList = new LinkedList<Integer>();
 	Proverb proverb;
 
@@ -39,8 +39,8 @@ public class CharadesControllerServlet extends HttpServlet
 			case "GETIDLISTANDFIRSTCHARADE":
 				getIdList();
 				getProverbById(chooseCharadeId(idList));
-				setCharade(proverb, request, response);
-			//	hideProverb(proverb);
+				setCharade(proverb, request, response);   //	hideProverb(proverb);
+			
 				break;
 
 			case "NEXTCHARADE":
@@ -73,14 +73,15 @@ public class CharadesControllerServlet extends HttpServlet
 	private void setCharade(Proverb proverb, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		
-		
 		String meaning = proverb.getMeaning();
+
 		request.setAttribute("CHARADE_MEANING", meaning);
 		
-		String hiddenProverb = hideProverb(proverb);
-		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
+		String hiddenProverbText = hideProverb(proverb);
+
+		request.setAttribute("CHARADE_HIDDEN", hiddenProverbText);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 
 		dispatcher.forward(request, response);
 		
@@ -88,7 +89,7 @@ public class CharadesControllerServlet extends HttpServlet
 
 	private String hideProverb(Proverb proverb)
 	{
-		String hiddenProverb;
+		String hiddenProverbText;
 		
 		char[] proverbChars = proverb.getProverb().toCharArray();
 
@@ -109,9 +110,9 @@ public class CharadesControllerServlet extends HttpServlet
 			}
 		}
 		
-		hiddenProverb = hiddenProverbChars.toString();
+		hiddenProverbText = new String(hiddenProverbChars);
 		
-		return hiddenProverb;
+		return hiddenProverbText;
 	}
 
 	
@@ -126,6 +127,7 @@ public class CharadesControllerServlet extends HttpServlet
 		int index = random.nextInt(list.size());
 		int choosenId = list.get(index);
 		idList.remove(index);
+		System.out.println("choosen - " + choosenId);
 		return choosenId;
 	}
 

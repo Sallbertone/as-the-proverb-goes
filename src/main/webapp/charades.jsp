@@ -12,10 +12,14 @@
 </head>
 <body>
 
-
-<c:out value="${CHARADE_MEANING}" default="jeślinull" />
-<c:out value="${CHARADE_HIDDEN}" default="jeślinull" />
-
+<h3>
+<c:out value="${CHARADE_MEANING}"/>
+${CHARADE_MEANING}
+</h3>
+<br><br>
+<h3>
+request.getAttribute(CHARADE_HIDDEN)
+</h3>
 <footer>
 	<div class="container">
 		<p>Piotr Szewczul<br>
