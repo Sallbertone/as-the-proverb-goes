@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Main    //TEMPORARY TESTING CLASS TO DELETE
+public class Main
 {
 
 	public static void main(String[] args)
@@ -147,7 +147,7 @@ session.close();
 
 		String dbUrl = "jdbc:mysql://s43.linuxpl.com/creall_proverbs?serverTimezone=UTC";
 		String user = "creall_provUser";
-		String pass = "xxx";
+		String pass = "tzfyJExk";
 
 		try
 		{

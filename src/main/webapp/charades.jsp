@@ -12,16 +12,64 @@
 </head>
 <body>
 
-<h3>
-<c:out value="${CHARADE_MEANING}"/>
+<header>
+	<div id="header-inner">
+		<a href="#" id="logo"></a> 
+		<nav>
+			<a href="#" id="menu-icon"></a>
+			<ul>
+				<li><a href="#">Zasady</a></li>
+				<li><a href="#">Kontakt</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
 
-</h3>
-<br><br>
+<c:set var="zmienna" value="test1"   />
+
+
+<section class="${zmienna == 'test2'? 'meaning':'meaningtwo'}">
+	<div class="meaning-inner">
+		<p>O przysłowiu:</p>
+		<c:out value="${CHARADE_MEANING}"/>
+	</div>
+</section>
+
+<section class="hangman">
+	<div class="hangman-inner">
+		<p>Obrazek:</p>
+		<img src="hangman.png">  <!---changing images-->
+	</div>
+</section>
+
+<section class="points">
+	<div class="points-inner">
+		<p>Punkty do zdobycia:</p>
+		<c:out value="${POINTS_TO_WIN}"/>
+	</div>
+</section>
+
+<section class="hidden">
+	<div class="hidden-inner">
+		<p>Odgadnij przysłowie:</p>
+		<c:out value="${CHARADE_HIDDEN}"/>
+	</div>
+</section>
+
+<section class="letters">
+	<div class="letters-inner">
+		<p>Wybierz literę:</p>
+		<form action="">
+			
+
+		</form>
+	</div>
+</section>
+
 
 <footer>
 	<div class="container">
-		<p>Piotr Szewczul<br>
-		</p>
+		<p>Piotr Szewczul</p>
 	</div>	
 </footer>
 

@@ -66,7 +66,7 @@ public class CharadesControllerServlet extends HttpServlet
 
 		request.setAttribute("CHARADE_HIDDEN", hiddenProverbText);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
 
 		dispatcher.forward(request, response);
 		

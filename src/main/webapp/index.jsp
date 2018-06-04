@@ -5,6 +5,10 @@
 <body>
 <h2>Hello World!</h2>
 <h3><c:out value="${CHARADE_MEANING}"/></h3>
+<br><br>
+${CHARADE_HIDDEN}
+<br><br>
+${5+5}
 
 </body>
 </html>
