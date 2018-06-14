@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-
 @WebServlet("/CharadesControllerServlet")
 public class CharadesControllerServlet extends HttpServlet
 {
@@ -91,7 +89,7 @@ public class CharadesControllerServlet extends HttpServlet
 			} 
 			else
 			{
-				hiddenProverbChars[i] = '.';
+				hiddenProverbChars[i] = '_';
 			}
 		}
 		
