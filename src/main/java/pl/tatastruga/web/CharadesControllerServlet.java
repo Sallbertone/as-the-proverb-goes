@@ -18,9 +18,25 @@ public class CharadesControllerServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	ProverbDAO proverbDAO = new ProverbDAO();
-	List<Integer> idList = new LinkedList<Integer>();
-	Proverb proverb;
+	private ProverbDAO proverbDAO = new ProverbDAO();
+	
+	private List<Integer> idList = new LinkedList<Integer>();
+
+	private RandomListIndexChooser randomListIndexChooser = new RandomListIndexChooser();
+	private ProverbIdChooser proverbIdChooser = new ProverbIdChooser();
+	private IdRemover idRemover = new IdRemover();
+	private Proverb proverb;
+	private ProverbHider proverbHider = new ProverbHider();
+	
+	
+	private int index;
+	private int proverbId;
+	private String hiddenProverb;
+
+
+
+	
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
@@ -36,13 +52,16 @@ public class CharadesControllerServlet extends HttpServlet
 			{
 			case "GETIDLISTANDFIRSTCHARADE":
 				getIdList();
-				getProverbById(chooseCharadeId(idList));
+				getRandomListIndex(idList.size());
+				chooseProverbId(idList, index);
+				getProverbById(proverbId);
+				removeIdFromTheList(index, idList, proverbId);
 				setCharade(proverb, request, response);   //	hideProverb(proverb);
 			
 				break;
 
 			case "NEXTCHARADE":
-				getProverbById(chooseCharadeId(idList));
+		//		getProverbById(chooseCharadeId(idList));
 				break;
 
 			}
@@ -53,16 +72,17 @@ public class CharadesControllerServlet extends HttpServlet
 		}
 	}
 
+
+
+
+
+
 	private void setCharade(Proverb proverb, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		
-		String meaning = proverb.getMeaning();
-
-		request.setAttribute("CHARADE_MEANING", meaning);
+		request.setAttribute("CHARADE_MEANING", proverb.getMeaning());
 		
-		String hiddenProverbText = hideProverb(proverb);
-
-		request.setAttribute("CHARADE_HIDDEN", hiddenProverbText);
+		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
 
@@ -70,48 +90,31 @@ public class CharadesControllerServlet extends HttpServlet
 		
 	}
 
-	private String hideProverb(Proverb proverb)
+	private void hideProverb(Proverb proverb)
 	{
-		String hiddenProverbText;
-		
-		char[] proverbChars = proverb.getProverb().toCharArray();
-
-		char[] hiddenProverbChars = new char[proverbChars.length];
-
-
-		for (int i = 0; i < proverbChars.length; i++)
-		{
-			if (proverbChars[i] == ',' || proverbChars[i] == ' ' || proverbChars[i] == '-' || proverbChars[i] == '?'
-					|| proverbChars[i] == '!' || proverbChars[i] == '.' || proverbChars[i] == ':'
-					|| proverbChars[i] == ';')
-			{
-				hiddenProverbChars[i] = proverbChars[i];
-			} 
-			else
-			{
-				hiddenProverbChars[i] = '_';
-			}
-		}
-		
-		hiddenProverbText = new String(hiddenProverbChars);
-		
-		return hiddenProverbText;
+		hiddenProverb = proverbHider.hideProverbText(proverb);
 	}
 
 	
-	private void getProverbById(int choosenId)
+	private void getProverbById(int charadeId)
 	{
-		proverb = proverbDAO.getProverb(choosenId);
+		proverb = proverbDAO.getProverb(charadeId);
+	}
+	
+
+	private void removeIdFromTheList(int index, List<Integer> list, int proverbId) // for no duplicates
+	{
+		idList = idRemover.removeId(index, list, proverbId);
 	}
 
-	private int chooseCharadeId(List<Integer> list) //choosing id and removing it from the list for no duplicates
+	private void chooseProverbId(List<Integer> list, int index) 
 	{
-		Random random = new Random();
-		int index = random.nextInt(list.size());
-		int choosenId = list.get(index);
-		idList.remove(index);
-		System.out.println("choosen - " + choosenId);
-		return choosenId;
+		proverbId = proverbIdChooser.chooseCharadeId(list, index);
+	}
+	
+	private void getRandomListIndex(int listSize)
+	{
+		index = randomListIndexChooser.chooseRandomIndex(listSize);
 	}
 
 	private void getIdList() //extracting all id from DB
@@ -119,6 +122,8 @@ public class CharadesControllerServlet extends HttpServlet
 		idList = proverbDAO.getIdList();
 	}
 
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 

@@ -30,8 +30,6 @@ public class ProverbDAO
 
 		idList = session.createQuery("SELECT id FROM Proverb").getResultList();
 		
-		System.out.println(idList.get(10));
-
 		session.getTransaction().commit();
 		session.close();
 
