@@ -7,9 +7,9 @@ public class ProverbHider
 	private char[] proverbChars;
 	private char[] hiddenProverbChars;
 	
-	public String hideProverbText(Proverb proverb)
+	public String hideProverbText(String proverbText)
 	{
-		proverbChars = proverb.getProverb().toCharArray();
+		proverbChars = proverbText.toCharArray();
 		hiddenProverbChars = new char[proverbChars.length];
 
 		for (int i = 0; i < proverbChars.length; i++)

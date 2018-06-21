@@ -1,6 +1,7 @@
 package pl.tatastruga.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -27,11 +28,23 @@ public class CharadesControllerServlet extends HttpServlet
 	private IdRemover idRemover = new IdRemover();
 	private Proverb proverb;
 	private ProverbHider proverbHider = new ProverbHider();
+	private LetterChecker letterChecker;
+	private LetterRevealer letterRevealer;
 	
 	
 	private int index;
 	private int proverbId;
+	private String proverbText;
+	private String proverbMeaning;
 	private String hiddenProverb;
+	private String pickedLetter;
+	boolean isLetterValid;
+	private List<Character> allUsedLetters = new ArrayList<Character>();
+	private List<Character> missedLetterShots = new ArrayList<Character>();
+
+
+
+
 
 
 
@@ -56,14 +69,32 @@ public class CharadesControllerServlet extends HttpServlet
 				chooseProverbId(idList, index);
 				getProverbById(proverbId);
 				removeIdFromTheList(index, idList, proverbId);
-				setCharade(proverb, request, response);   //	hideProverb(proverb);
+				hideProverb(proverbText);
+				setCharade(hiddenProverb, proverbMeaning, request, response);   
 			
 				break;
 
-			case "NEXTCHARADE":
-		//		getProverbById(chooseCharadeId(idList));
+			case "CHECKLETTER":
+				pickALetter(request);
+				checkALetter(pickedLetter, proverbText);
+				addPickedLetterToAllUsedLetters(pickedLetter);
+				if(isLetterValid)
+				{
+					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb);
+				}
+				else
+				{
+					addPickedLetterToMissedLetterShots(pickedLetter);
+					// to do - changin hangman pics
+					// to do - changing remainig points
+				}
+
 				break;
 
+			case "NEXTCHARADE":
+				//		getProverbById(chooseCharadeId(idList));
+						break;
+				
 			}
 
 		} catch (Exception e)
@@ -77,31 +108,57 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void setCharade(Proverb proverb, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	private void revealPickedLetterInHiddenProverb(String pickedLetter, String hiddenProverb)
 	{
+		this.hiddenProverb = letterRevealer.revealLetterInHiddenProverbText(pickedLetter, hiddenProverb);
 		
-		request.setAttribute("CHARADE_MEANING", proverb.getMeaning());
-		
+	}
+
+
+
+
+
+
+	private void addPickedLetterToMissedLetterShots(String pickedLetter)
+	{
+		missedLetterShots.add(pickedLetter.charAt(0));
+	}
+
+	private void addPickedLetterToAllUsedLetters(String pickedLetter)
+	{
+		allUsedLetters.add(pickedLetter.charAt(0));
+	}
+
+	private void checkALetter(String pickedLetter, String proverbText)
+	{
+		isLetterValid = letterChecker.isLetterPresent(pickedLetter, proverbText);
+	}
+
+	private void pickALetter(HttpServletRequest request)
+	{
+		pickedLetter = request.getParameter("letter");
+	}
+
+	private void setCharade(String hiddenProverb, String proverbMeaning, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		request.setAttribute("CHARADE_MEANING", proverbMeaning);
 		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
-
 		dispatcher.forward(request, response);
-		
 	}
 
-	private void hideProverb(Proverb proverb)
+	private void hideProverb(String proverbText)
 	{
-		hiddenProverb = proverbHider.hideProverbText(proverb);
+		hiddenProverb = proverbHider.hideProverbText(proverbText);
 	}
 
-	
 	private void getProverbById(int charadeId)
 	{
 		proverb = proverbDAO.getProverb(charadeId);
+		proverbText = proverb.getProverb();
+		proverbMeaning = proverb.getMeaning();
 	}
 	
-
 	private void removeIdFromTheList(int index, List<Integer> list, int proverbId) // for no duplicates
 	{
 		idList = idRemover.removeId(index, list, proverbId);
@@ -122,6 +179,7 @@ public class CharadesControllerServlet extends HttpServlet
 		idList = proverbDAO.getIdList();
 	}
 
+	
 	
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

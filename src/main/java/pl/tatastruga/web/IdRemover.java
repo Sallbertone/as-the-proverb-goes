@@ -8,15 +8,11 @@ public class IdRemover
 
 	public List<Integer> removeId(int index, List<Integer> list, int proverbId)
 	{
-		try  
-		{
+
 			if(list.get(index) == proverbId)
 				list.remove(index);
-		}
-		catch (Exception e) 
-		{
-			System.out.println("get index and proverbId mismatch");
-		}
+			else
+				System.out.println("proverb ID mismatch");
 
 		return list;
 	}

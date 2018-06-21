@@ -64,31 +64,37 @@
 <!---  class="${zmienna == 'test2'? 'green':'grey'}"   changing class-->
 
 		<form  action="CharadesControllerServlet" method="GET" id="a">   
+		<input type="hidden" name="command" value="CHECKLETTER">
 		<input type="hidden" name="letter" value="A">
 		</form>
 		<button class="to-click" type="submit" form="a" value="A">A</button>
 
 		<form  action="CharadesControllerServlet" method="GET" id="ą">
+		<input type="hidden" name="command" value="CHECKLETTER">
 		<input type="hidden" name="letter" value="Ą">			
 		</form>
 		<button class="to-click" type="submit" form="ą" value="Ą">Ą</button>
 
 		<form  action="CharadesControllerServlet" method="GET" id="b">   
+		<input type="hidden" name="command" value="CHECKLETTER">
 		<input type="hidden" name="letter" value="B">
 		</form>
 		<button class="clicked" type="submit" form="b" value="B">B</button>
 
 		<form  action="CharadesControllerServlet" method="GET" id="c">
+		<input type="hidden" name="command" value="CHECKLETTER">
 		<input type="hidden" name="letter" value="C">			
 		</form>
 		<button class="clicked" type="submit" form="c" value="C">C</button>
 		
 		<form  action="CharadesControllerServlet" method="GET" id="ć">   
+		<input type="hidden" name="command" value="CHECKLETTER">
 		<input type="hidden" name="letter" value="Ć">
 		</form>
 		<button class="to-click" type="submit" form="ć" value="Ć">Ć</button>
 
 		<form  action="CharadesControllerServlet" method="GET" id="d">
+		<input type="hidden" name="command" value="CHECKLETTER">	
 		<input type="hidden" name="letter" value="D">			
 		</form>
 		<button class="to-click" type="submit" form="d" value="D">D</button>
