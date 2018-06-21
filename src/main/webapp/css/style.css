@@ -127,9 +127,10 @@ header nav{
 
 #hidden h3{
 	text-align: center;
-	font-size: 30px;
+	font-size: 25px;
+	line-height: 35px;
 	letter-spacing: 5px;
-	padding: 25px;
+	padding: 10px;
 	border: solid #008B8B 1px;
 	border-radius: 20px;
 }

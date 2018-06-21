@@ -2,6 +2,7 @@ package pl.tatastruga.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 @WebServlet("/CharadesControllerServlet")
 public class CharadesControllerServlet extends HttpServlet
 {
@@ -21,26 +23,26 @@ public class CharadesControllerServlet extends HttpServlet
 
 	private ProverbDAO proverbDAO = new ProverbDAO();
 	
-	private List<Integer> idList = new LinkedList<Integer>();
+	static private List<Integer> idList = new LinkedList<Integer>();
 
 	private RandomListIndexChooser randomListIndexChooser = new RandomListIndexChooser();
 	private ProverbIdChooser proverbIdChooser = new ProverbIdChooser();
 	private IdRemover idRemover = new IdRemover();
 	private Proverb proverb;
 	private ProverbHider proverbHider = new ProverbHider();
-	private LetterChecker letterChecker;
-	private LetterRevealer letterRevealer;
+	private LetterChecker letterChecker = new LetterChecker();
+	private LetterRevealer letterRevealer = new LetterRevealer();
 	
 	
-	private int index;
-	private int proverbId;
-	private String proverbText;
-	private String proverbMeaning;
-	private String hiddenProverb;
-	private String pickedLetter;
-	boolean isLetterValid;
-	private List<Character> allUsedLetters = new ArrayList<Character>();
-	private List<Character> missedLetterShots = new ArrayList<Character>();
+	static private int index;
+	static private int proverbId;
+	static private String proverbText;
+	static private String proverbMeaning;
+	static private String hiddenProverb;
+	static private String pickedLetter;
+	static private boolean isLetterValid;
+	static private List<Character> allUsedLetters = new ArrayList<Character>();
+	static private List<Character> missedLetterShots = new ArrayList<Character>();
 
 
 
@@ -78,13 +80,20 @@ public class CharadesControllerServlet extends HttpServlet
 				pickALetter(request);
 				checkALetter(pickedLetter, proverbText);
 				addPickedLetterToAllUsedLetters(pickedLetter);
+		//		forwardAllUsedLettersToView(allUsedLetters, request, response);  
 				if(isLetterValid)
 				{
 					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb, proverbText);
+					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
+					
+					System.out.println("all used letters: " + Arrays.toString(allUsedLetters.toArray()));
 				}
 				else
 				{
 					addPickedLetterToMissedLetterShots(pickedLetter);
+					System.out.println("missed Letter Shots: " + Arrays.toString(missedLetterShots.toArray()));
+					
+					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
 					// to do - changin hangman pics
 					// to do - changing remainig points
 				}
@@ -101,6 +110,21 @@ public class CharadesControllerServlet extends HttpServlet
 		{
 			throw new ServletException(e);
 		}
+	}
+
+
+
+
+
+
+	private void setCharadeWithAllUsedLetters(List<Character> allUsedLetters, String hiddenProverb,	String proverbMeaning, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		request.setAttribute("CHARADE_MEANING", proverbMeaning);
+		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
+		request.setAttribute("ALL_USED_LETTERS", allUsedLetters);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 
 
