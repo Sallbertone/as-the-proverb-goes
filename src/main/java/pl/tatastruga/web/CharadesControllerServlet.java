@@ -80,7 +80,7 @@ public class CharadesControllerServlet extends HttpServlet
 				addPickedLetterToAllUsedLetters(pickedLetter);
 				if(isLetterValid)
 				{
-					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb);
+					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb, proverbText);
 				}
 				else
 				{
@@ -108,16 +108,10 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void revealPickedLetterInHiddenProverb(String pickedLetter, String hiddenProverb)
+	private void revealPickedLetterInHiddenProverb(String pickedLetter, String hiddenProverb, String proverbText)
 	{
-		this.hiddenProverb = letterRevealer.revealLetterInHiddenProverbText(pickedLetter, hiddenProverb);
-		
+		this.hiddenProverb = letterRevealer.revealLetterInHiddenProverbText(pickedLetter, hiddenProverb, proverbText);
 	}
-
-
-
-
-
 
 	private void addPickedLetterToMissedLetterShots(String pickedLetter)
 	{
