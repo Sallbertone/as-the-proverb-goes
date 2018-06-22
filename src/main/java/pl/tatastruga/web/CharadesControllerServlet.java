@@ -41,8 +41,8 @@ public class CharadesControllerServlet extends HttpServlet
 	static private String hiddenProverb;
 	static private String pickedLetter;
 	static private boolean isLetterValid;
-	static private List<Character> allUsedLetters = new ArrayList<Character>();
-	static private List<Character> missedLetterShots = new ArrayList<Character>();
+	static private List<String> allUsedLetters = new ArrayList<String>();
+	static private List<String> missedLetterShots = new ArrayList<String>();
 
 
 
@@ -117,7 +117,7 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void setCharadeWithAllUsedLetters(List<Character> allUsedLetters, String hiddenProverb,	String proverbMeaning, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	private void setCharadeWithAllUsedLetters(List<String> allUsedLetters, String hiddenProverb,	String proverbMeaning, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		request.setAttribute("CHARADE_MEANING", proverbMeaning);
 		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
@@ -139,12 +139,12 @@ public class CharadesControllerServlet extends HttpServlet
 
 	private void addPickedLetterToMissedLetterShots(String pickedLetter)
 	{
-		missedLetterShots.add(pickedLetter.charAt(0));
+		missedLetterShots.add(pickedLetter);
 	}
 
 	private void addPickedLetterToAllUsedLetters(String pickedLetter)
 	{
-		allUsedLetters.add(pickedLetter.charAt(0));
+		allUsedLetters.add(pickedLetter);
 	}
 
 	private void checkALetter(String pickedLetter, String proverbText)
@@ -192,7 +192,7 @@ public class CharadesControllerServlet extends HttpServlet
 		index = randomListIndexChooser.chooseRandomIndex(listSize);
 	}
 
-	private void getIdList() //extracting all id from DB
+	private void getIdList() 
 	{
 		idList = proverbDAO.getIdList();
 	}

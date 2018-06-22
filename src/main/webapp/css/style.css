@@ -156,7 +156,6 @@ header nav{
 	font-weight: bolder;
 	margin: 5px;
 
-	border: 1px solid black;
 	border-radius: 5px;
 
 	width: 35px;
@@ -167,6 +166,7 @@ header nav{
 
 button.to-click {
 	background: #008B8B;
+	border: 1px solid black;
 }
 
 button.to-click:hover{
@@ -176,7 +176,7 @@ button.to-click:hover{
 
 button.clicked {
 	background: #999999;
-	border-color: #999999;
+	border: none;
 	pointer-events: none;
 }
 
