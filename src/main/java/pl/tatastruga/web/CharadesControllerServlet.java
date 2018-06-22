@@ -32,6 +32,10 @@ public class CharadesControllerServlet extends HttpServlet
 	private ProverbHider proverbHider = new ProverbHider();
 	private LetterChecker letterChecker = new LetterChecker();
 	private LetterRevealer letterRevealer = new LetterRevealer();
+
+	private ProverbGuessedChecker proverbGuessedChecker;
+
+	
 	
 	
 	static private int index;
@@ -43,7 +47,7 @@ public class CharadesControllerServlet extends HttpServlet
 	static private boolean isLetterValid;
 	static private List<String> allUsedLetters = new ArrayList<String>();
 	static private List<String> missedLetterShots = new ArrayList<String>();
-
+	static private boolean isCharadeComplete;
 
 
 
@@ -73,6 +77,7 @@ public class CharadesControllerServlet extends HttpServlet
 				removeIdFromTheList(index, idList, proverbId);
 				hideProverb(proverbText);
 				setCharade(hiddenProverb, proverbMeaning, request, response);   
+				clearListsOfMissedAndUsedLetters(allUsedLetters, missedLetterShots);
 			
 				break;
 
@@ -80,19 +85,16 @@ public class CharadesControllerServlet extends HttpServlet
 				pickALetter(request);
 				checkALetter(pickedLetter, proverbText);
 				addPickedLetterToAllUsedLetters(pickedLetter);
-		//		forwardAllUsedLettersToView(allUsedLetters, request, response);  
+
 				if(isLetterValid)
 				{
 					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb, proverbText);
 					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
-					
-					System.out.println("all used letters: " + Arrays.toString(allUsedLetters.toArray()));
+					checkIfCharadeIsComplete(hiddenProverb, proverbText);
 				}
 				else
 				{
 					addPickedLetterToMissedLetterShots(pickedLetter);
-					System.out.println("missed Letter Shots: " + Arrays.toString(missedLetterShots.toArray()));
-					
 					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
 					// to do - changin hangman pics
 					// to do - changing remainig points
@@ -110,6 +112,31 @@ public class CharadesControllerServlet extends HttpServlet
 		{
 			throw new ServletException(e);
 		}
+	}
+
+
+
+
+
+
+	private void checkIfCharadeIsComplete(String hiddenProverb, String proverbText)
+	{
+		isCharadeComplete = proverbGuessedChecker.checkIfProverbIsGuessed(hiddenProverb, proverbText);
+		
+	}
+
+
+
+
+
+
+	private void clearListsOfMissedAndUsedLetters(List<String> allUsedLetters, List<String> missedLetterShots)
+	{
+		allUsedLetters.clear();
+		this.allUsedLetters = allUsedLetters;
+		
+		missedLetterShots.clear();
+		this.missedLetterShots = missedLetterShots;
 	}
 
 
