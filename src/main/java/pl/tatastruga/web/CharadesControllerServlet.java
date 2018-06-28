@@ -32,8 +32,7 @@ public class CharadesControllerServlet extends HttpServlet
 	private ProverbHider proverbHider = new ProverbHider();
 	private LetterChecker letterChecker = new LetterChecker();
 	private LetterRevealer letterRevealer = new LetterRevealer();
-
-	private ProverbGuessedChecker proverbGuessedChecker;
+	private ProverbGuessedChecker proverbGuessedChecker = new ProverbGuessedChecker();
 
 	
 	
@@ -89,13 +88,13 @@ public class CharadesControllerServlet extends HttpServlet
 				if(isLetterValid)
 				{
 					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb, proverbText);
-					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
 					checkIfCharadeIsComplete(hiddenProverb, proverbText);
+					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response);
 				}
 				else
 				{
 					addPickedLetterToMissedLetterShots(pickedLetter);
-					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, request, response);
+					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response);
 					// to do - changin hangman pics
 					// to do - changing remainig points
 				}
@@ -122,7 +121,6 @@ public class CharadesControllerServlet extends HttpServlet
 	private void checkIfCharadeIsComplete(String hiddenProverb, String proverbText)
 	{
 		isCharadeComplete = proverbGuessedChecker.checkIfProverbIsGuessed(hiddenProverb, proverbText);
-		
 	}
 
 
@@ -144,11 +142,12 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void setCharadeWithAllUsedLetters(List<String> allUsedLetters, String hiddenProverb,	String proverbMeaning, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	private void setCharadeWithAllUsedLetters(List<String> allUsedLetters, String hiddenProverb,	String proverbMeaning, boolean isCharadeComplete, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		request.setAttribute("CHARADE_MEANING", proverbMeaning);
 		request.setAttribute("CHARADE_HIDDEN", hiddenProverb);
 		request.setAttribute("ALL_USED_LETTERS", allUsedLetters);
+		request.setAttribute("IS_CHARADE_COMPLETE", isCharadeComplete);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/charades.jsp");
 		dispatcher.forward(request, response);
 		

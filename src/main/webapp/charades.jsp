@@ -57,6 +57,8 @@
 	</div>
 </section>
 
+
+
 <c:forEach var="tempLetter" items="${ALL_USED_LETTERS}">
 
 	<c:if test="${tempLetter == 'A'}">
@@ -199,203 +201,212 @@
 </c:forEach>
 
 
-
-
 <section id="letters">
 	<div class="container">
-		<h2>Wybierz literę:</h2>
+
+	<c:choose>
+		<c:when test="${IS_CHARADE_COMPLETE}">
+			<h2>GRATULACJE!</h2>
+		</c:when>
 		
-		<form  action="CharadesControllerServlet" method="GET" id="a">   
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="A">
-		</form>
-		<button class="${varA == 'A'? 'clicked':'to-click'}" type="submit" form="a">A</button>
+		<c:otherwise>
+	    
+		  	<h2>Wybierz literę:</h2>
+			
+			<form  action="CharadesControllerServlet" method="GET" id="a">   
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="A">
+			</form>
+			<button class="${varA == 'A'? 'clicked':'to-click'}" type="submit" form="a">A</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ą">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ą">			
-		</form>
-		<button class="${varĄ == 'Ą'? 'clicked':'to-click'}" type="submit" form="ą">Ą</button>
+			<form  action="CharadesControllerServlet" method="GET" id="ą">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ą">			
+			</form>
+			<button class="${varĄ == 'Ą'? 'clicked':'to-click'}" type="submit" form="ą">Ą</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="b">   
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="B">
-		</form>
-		<button class="${varB == 'B'? 'clicked':'to-click'}" type="submit" form="b">B</button>
+			<form  action="CharadesControllerServlet" method="GET" id="b">   
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="B">
+			</form>
+			<button class="${varB == 'B'? 'clicked':'to-click'}" type="submit" form="b">B</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="c">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="C">			
-		</form>
-		<button class="${varC == 'C'? 'clicked':'to-click'}" type="submit" form="c">C</button>
-		
-		<form  action="CharadesControllerServlet" method="GET" id="ć">   
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ć">
-		</form>
-		<button class="${varĆ == 'Ć'? 'clicked':'to-click'}" type="submit" form="ć">Ć</button>
+			<form  action="CharadesControllerServlet" method="GET" id="c">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="C">			
+			</form>
+			<button class="${varC == 'C'? 'clicked':'to-click'}" type="submit" form="c">C</button>
+			
+			<form  action="CharadesControllerServlet" method="GET" id="ć">   
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ć">
+			</form>
+			<button class="${varĆ == 'Ć'? 'clicked':'to-click'}" type="submit" form="ć">Ć</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="d">
-		<input type="hidden" name="command" value="CHECKLETTER">	
-		<input type="hidden" name="letter" value="D">			
-		</form>
-		<button class="${varD == 'D'? 'clicked':'to-click'}" type="submit" form="d">D</button>
+			<form  action="CharadesControllerServlet" method="GET" id="d">
+			<input type="hidden" name="command" value="CHECKLETTER">	
+			<input type="hidden" name="letter" value="D">			
+			</form>
+			<button class="${varD == 'D'? 'clicked':'to-click'}" type="submit" form="d">D</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="e">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="E">			
-		</form>
-		<button class="${varE == 'E'? 'clicked':'to-click'}" type="submit" form="e">E</button>
+			<form  action="CharadesControllerServlet" method="GET" id="e">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="E">			
+			</form>
+			<button class="${varE == 'E'? 'clicked':'to-click'}" type="submit" form="e">E</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ę">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ę">			
-		</form>
-		<button class="${varĘ == 'Ę'? 'clicked':'to-click'}" type="submit" form="ę">Ę</button>
+			<form  action="CharadesControllerServlet" method="GET" id="ę">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ę">			
+			</form>
+			<button class="${varĘ == 'Ę'? 'clicked':'to-click'}" type="submit" form="ę">Ę</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="f">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="F">			
-		</form>
-		<button class="${varF == 'F'? 'clicked':'to-click'}" type="submit" form="f">F</button>
+			<form  action="CharadesControllerServlet" method="GET" id="f">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="F">			
+			</form>
+			<button class="${varF == 'F'? 'clicked':'to-click'}" type="submit" form="f">F</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="g">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="G">			
-		</form>
-		<button class="${varG == 'G'? 'clicked':'to-click'}" type="submit" form="g">G</button>
+			<form  action="CharadesControllerServlet" method="GET" id="g">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="G">			
+			</form>
+			<button class="${varG == 'G'? 'clicked':'to-click'}" type="submit" form="g">G</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="h">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="H">			
-		</form>
-		<button class="${varH == 'H'? 'clicked':'to-click'}" type="submit" form="h">H</button>
+			<form  action="CharadesControllerServlet" method="GET" id="h">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="H">			
+			</form>
+			<button class="${varH == 'H'? 'clicked':'to-click'}" type="submit" form="h">H</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="i">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="I">			
-		</form>
-		<button class="${varI == 'I'? 'clicked':'to-click'}" type="submit" form="i">I</button>
+			<form  action="CharadesControllerServlet" method="GET" id="i">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="I">			
+			</form>
+			<button class="${varI == 'I'? 'clicked':'to-click'}" type="submit" form="i">I</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="j">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="J">			
-		</form>
-		<button class="${varJ == 'J'? 'clicked':'to-click'}" type="submit" form="j">J</button>
+			<form  action="CharadesControllerServlet" method="GET" id="j">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="J">			
+			</form>
+			<button class="${varJ == 'J'? 'clicked':'to-click'}" type="submit" form="j">J</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="k">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="K">			
-		</form>
-		<button class="${varK == 'K'? 'clicked':'to-click'}" type="submit" form="k">K</button>
+			<form  action="CharadesControllerServlet" method="GET" id="k">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="K">			
+			</form>
+			<button class="${varK == 'K'? 'clicked':'to-click'}" type="submit" form="k">K</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="l">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="L">			
-		</form>
-		<button class="${varL == 'L'? 'clicked':'to-click'}" type="submit" form="l">L</button>	
+			<form  action="CharadesControllerServlet" method="GET" id="l">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="L">			
+			</form>
+			<button class="${varL == 'L'? 'clicked':'to-click'}" type="submit" form="l">L</button>	
 
-		<form  action="CharadesControllerServlet" method="GET" id="ł">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ł">			
-		</form>
-		<button class="${varŁ == 'Ł'? 'clicked':'to-click'}" type="submit" form="ł">Ł</button>	
+			<form  action="CharadesControllerServlet" method="GET" id="ł">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ł">			
+			</form>
+			<button class="${varŁ == 'Ł'? 'clicked':'to-click'}" type="submit" form="ł">Ł</button>	
 
-		<form  action="CharadesControllerServlet" method="GET" id="m">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="M">			
-		</form>
-		<button class="${varM == 'M'? 'clicked':'to-click'}" type="submit" form="m">M</button>
+			<form  action="CharadesControllerServlet" method="GET" id="m">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="M">			
+			</form>
+			<button class="${varM == 'M'? 'clicked':'to-click'}" type="submit" form="m">M</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="n">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="N">			
-		</form>
-		<button class="${varN == 'N'? 'clicked':'to-click'}" type="submit" form="n">N</button>
+			<form  action="CharadesControllerServlet" method="GET" id="n">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="N">			
+			</form>
+			<button class="${varN == 'N'? 'clicked':'to-click'}" type="submit" form="n">N</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ń">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ń">			
-		</form>
-		<button class="${varŃ == 'Ń'? 'clicked':'to-click'}" type="submit" form="ń">Ń</button>	
+			<form  action="CharadesControllerServlet" method="GET" id="ń">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ń">			
+			</form>
+			<button class="${varŃ == 'Ń'? 'clicked':'to-click'}" type="submit" form="ń">Ń</button>	
 
-		<form  action="CharadesControllerServlet" method="GET" id="o">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="O">			
-		</form>
-		<button class="${varO == 'O'? 'clicked':'to-click'}" type="submit" form="o">O</button>	
+			<form  action="CharadesControllerServlet" method="GET" id="o">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="O">			
+			</form>
+			<button class="${varO == 'O'? 'clicked':'to-click'}" type="submit" form="o">O</button>	
 
-		<form  action="CharadesControllerServlet" method="GET" id="ó">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ó">			
-		</form>
-		<button class="${varÓ == 'Ó'? 'clicked':'to-click'}" type="submit" form="ó">Ó</button>
+			<form  action="CharadesControllerServlet" method="GET" id="ó">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ó">			
+			</form>
+			<button class="${varÓ == 'Ó'? 'clicked':'to-click'}" type="submit" form="ó">Ó</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="p">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="P">			
-		</form>
-		<button class="${varP == 'P'? 'clicked':'to-click'}" type="submit" form="p">P</button>		
+			<form  action="CharadesControllerServlet" method="GET" id="p">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="P">			
+			</form>
+			<button class="${varP == 'P'? 'clicked':'to-click'}" type="submit" form="p">P</button>		
 
-		<form  action="CharadesControllerServlet" method="GET" id="r">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="R">			
-		</form>
-		<button class="${varR == 'R'? 'clicked':'to-click'}" type="submit" form="r">R</button>
+			<form  action="CharadesControllerServlet" method="GET" id="r">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="R">			
+			</form>
+			<button class="${varR == 'R'? 'clicked':'to-click'}" type="submit" form="r">R</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="s">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="S">			
-		</form>
-		<button class="${varS == 'S'? 'clicked':'to-click'}" type="submit" form="s">S</button>
+			<form  action="CharadesControllerServlet" method="GET" id="s">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="S">			
+			</form>
+			<button class="${varS == 'S'? 'clicked':'to-click'}" type="submit" form="s">S</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ś">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ś">			
-		</form>
-		<button class="${varŚ == 'Ś'? 'clicked':'to-click'}" type="submit" form="ś">Ś</button>
+			<form  action="CharadesControllerServlet" method="GET" id="ś">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ś">			
+			</form>
+			<button class="${varŚ == 'Ś'? 'clicked':'to-click'}" type="submit" form="ś">Ś</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="t">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="T">			
-		</form>
-		<button class="${varT == 'T'? 'clicked':'to-click'}" type="submit" form="t">T</button>
+			<form  action="CharadesControllerServlet" method="GET" id="t">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="T">			
+			</form>
+			<button class="${varT == 'T'? 'clicked':'to-click'}" type="submit" form="t">T</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="u">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="U">			
-		</form>
-		<button class="${varU == 'U'? 'clicked':'to-click'}" type="submit" form="u">U</button>
+			<form  action="CharadesControllerServlet" method="GET" id="u">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="U">			
+			</form>
+			<button class="${varU == 'U'? 'clicked':'to-click'}" type="submit" form="u">U</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="w">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="W">			
-		</form>
-		<button class="${varW == 'W'? 'clicked':'to-click'}" type="submit" form="w">W</button>
+			<form  action="CharadesControllerServlet" method="GET" id="w">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="W">			
+			</form>
+			<button class="${varW == 'W'? 'clicked':'to-click'}" type="submit" form="w">W</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="y">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Y">			
-		</form>
-		<button class="${varY == 'Y'? 'clicked':'to-click'}" type="submit" form="y">Y</button>
+			<form  action="CharadesControllerServlet" method="GET" id="y">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Y">			
+			</form>
+			<button class="${varY == 'Y'? 'clicked':'to-click'}" type="submit" form="y">Y</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="z">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Z">			
-		</form>
-		<button class="${varZ == 'Z'? 'clicked':'to-click'}" type="submit" form="z">Z</button>
+			<form  action="CharadesControllerServlet" method="GET" id="z">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Z">			
+			</form>
+			<button class="${varZ == 'Z'? 'clicked':'to-click'}" type="submit" form="z">Z</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ź">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ź">			
-		</form>
-		<button class="${varŹ == 'Ź'? 'clicked':'to-click'}" type="submit" form="ź">Ź</button>
+			<form  action="CharadesControllerServlet" method="GET" id="ź">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ź">			
+			</form>
+			<button class="${varŹ == 'Ź'? 'clicked':'to-click'}" type="submit" form="ź">Ź</button>
 
-		<form  action="CharadesControllerServlet" method="GET" id="ż">
-		<input type="hidden" name="command" value="CHECKLETTER">
-		<input type="hidden" name="letter" value="Ż">			
-		</form>
-		<button class="${varŻ == 'Ż'? 'clicked':'to-click'}" type="submit" form="ż">Ż</button>		
+			<form  action="CharadesControllerServlet" method="GET" id="ż">
+			<input type="hidden" name="command" value="CHECKLETTER">
+			<input type="hidden" name="letter" value="Ż">			
+			</form>
+			<button class="${varŻ == 'Ż'? 'clicked':'to-click'}" type="submit" form="ż">Ż</button>		
+
+	  	</c:otherwise>
+	</c:choose>
 
 	</div>
 </section>
@@ -411,6 +422,9 @@
 			</form>
 	</div>
 </section>
+
+
+
 
 <footer>
 	<div class="container">
