@@ -25,7 +25,6 @@ public class CharadesControllerServlet extends HttpServlet
 
 	private ProverbDAO proverbDAO = new ProverbDAO();
 	
-	static private List<Integer> idList = new LinkedList<Integer>();
 
 	private RandomListIndexChooser randomListIndexChooser = new RandomListIndexChooser();
 	private ProverbIdChooser proverbIdChooser = new ProverbIdChooser();
@@ -39,16 +38,7 @@ public class CharadesControllerServlet extends HttpServlet
 	
 	
 	
-	static private int index;
-	static private int proverbId;
-	static private String proverbText;
-	static private String proverbMeaning;
-	static private String hiddenProverb;
-	static private String pickedLetter;
-	static private boolean isLetterValid;
-	static private List<String> allUsedLetters = new ArrayList<String>();
-	static private List<String> missedLetterShots = new ArrayList<String>();
-	static private boolean isCharadeComplete;
+
 
 
 
@@ -73,32 +63,32 @@ public class CharadesControllerServlet extends HttpServlet
 			switch (theCommand)
 			{
 			case "GETIDLISTANDFIRSTCHARADE":
+				session.setAttribute("isCharadeComplete", false);
 				getIdList(session);
-				getRandomListIndex(idList.size(), session);
-				chooseProverbId(idList, index, session);
-				getProverbById(proverbId, session);
-				removeIdFromTheList(index, idList, proverbId, session);
-				hideProverb(proverbText, session);
-				setCharade(hiddenProverb, proverbMeaning, request, response, session);   
-				clearListsOfMissedAndUsedLetters(allUsedLetters, missedLetterShots, session);
+				getRandomListIndex(session);   //(idList.size(), session);
+				chooseProverbId(session);     //(idList, index, session);
+				getProverbById(session);     //(proverbId, session);
+				removeIdFromTheList(session);    //(index, idList, proverbId, session);
+				hideProverb(session);     //(proverbText, session);
+				setCharade(request, response, session);      //(hiddenProverb, proverbMeaning, request, response, session);   
 			
 				break;
 
 			case "CHECKLETTER":
 				pickALetter(request, session);
-				checkALetter(pickedLetter, proverbText, session);
-				addPickedLetterToAllUsedLetters(pickedLetter, session);
+				checkALetter(session);     //(pickedLetter, proverbText, session);
+				addPickedLetterToAllUsedLetters(session);   //(pickedLetter, session);
 
-				if(isLetterValid)
+				if((boolean)session.getAttribute("isLetterValid"))    //(isLetterValid)
 				{
-					revealPickedLetterInHiddenProverb(pickedLetter, hiddenProverb, proverbText, session);
-					checkIfCharadeIsComplete(hiddenProverb, proverbText, session);
-					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response, session);
+					revealPickedLetterInHiddenProverb(session);   //(pickedLetter, hiddenProverb, proverbText, session);
+					checkIfCharadeIsComplete(session);      //(hiddenProverb, proverbText, session);
+					setCharadeWithAllUsedLetters(request, response, session);    //(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response, session);
 				}
 				else
 				{
-					addPickedLetterToMissedLetterShots(pickedLetter, session);
-					setCharadeWithAllUsedLetters(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response, session);
+					addPickedLetterToMissedLetterShots(session);   //(pickedLetter, session);
+					setCharadeWithAllUsedLetters(request, response, session);
 					// to do - changin hangman pics
 					// to do - changing remainig points
 				}
@@ -122,35 +112,28 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void checkIfCharadeIsComplete(String hiddenProverb, String proverbText, HttpSession session)
+	private void checkIfCharadeIsComplete(HttpSession session)
 	{
-		isCharadeComplete = proverbGuessedChecker.checkIfProverbIsGuessed(hiddenProverb, proverbText);
-		session.setAttribute("isCharadeComplete", isCharadeComplete);
-	}
-
-
-
-
-
-
-	private void clearListsOfMissedAndUsedLetters(List<String> allUsedLetters, List<String> missedLetterShots, HttpSession session)
-	{
-		allUsedLetters.clear();
-		this.allUsedLetters = allUsedLetters;
-		session.setAttribute("allUsedLetters", this.allUsedLetters);
+		String hiddenProverb = (String) session.getAttribute("hiddenProverb");
+		String proverbText = (String) session.getAttribute("proverbText");
 		
-		missedLetterShots.clear();
-		this.missedLetterShots = missedLetterShots;
-		session.setAttribute("missedLetterShots", this.missedLetterShots);
+		boolean isCharadeComplete = proverbGuessedChecker.checkIfProverbIsGuessed(hiddenProverb, proverbText);
+		session.setAttribute("isCharadeComplete", isCharadeComplete);   // dać na wejście
+
 	}
 
 
 
 
 
-
-	private void setCharadeWithAllUsedLetters(List<String> allUsedLetters, String hiddenProverb,	String proverbMeaning, boolean isCharadeComplete, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
+	private void setCharadeWithAllUsedLetters(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
 	{
+		ArrayList<String> allUsedLetters = (ArrayList<String>) session.getAttribute("allUsedLetters");
+		System.out.println("id = " + session.getId() + " and allUsedLetters in setCharadeWithAllUsedLetter: " + Arrays.toString(allUsedLetters.toArray()));
+		String  hiddenProverb = (String) session.getAttribute("hiddenProverb");
+		String proverbMeaning = (String) session.getAttribute("proverbMeaning");
+		boolean isCharadeComplete = (boolean) session.getAttribute("isCharadeComplete");
+		
 		session.setAttribute("CHARADE_MEANING", proverbMeaning);
 		session.setAttribute("CHARADE_HIDDEN", hiddenProverb);
 		session.setAttribute("ALL_USED_LETTERS", allUsedLetters);
@@ -165,81 +148,146 @@ public class CharadesControllerServlet extends HttpServlet
 
 
 
-	private void revealPickedLetterInHiddenProverb(String pickedLetter, String hiddenProverb, String proverbText, HttpSession session)
+	private void revealPickedLetterInHiddenProverb(HttpSession session)
 	{
-		this.hiddenProverb = letterRevealer.revealLetterInHiddenProverbText(pickedLetter, hiddenProverb, proverbText);
-		session.setAttribute("hiddenProverb", this.hiddenProverb);
+		String pickedLetter = (String) session.getAttribute("pickedLetter");
+		String hiddenProverb = (String) session.getAttribute("hiddenProverb");
+		String proverbText = (String) session.getAttribute("proverbText");
+		
+		hiddenProverb = letterRevealer.revealLetterInHiddenProverbText(pickedLetter, hiddenProverb, proverbText);
+		session.setAttribute("hiddenProverb", hiddenProverb);
 	}
 
-	private void addPickedLetterToMissedLetterShots(String pickedLetter, HttpSession session)
+	private void addPickedLetterToMissedLetterShots(HttpSession session)
 	{
-		missedLetterShots.add(pickedLetter);
+		String pickedLetter = (String) session.getAttribute("pickedLetter");
+		
+		Object sessionListTest = session.getAttribute("missedLetterShots");
+		
+		ArrayList<String> missedLetterShots;
+		
+		if(sessionListTest == null) 
+		{
+			missedLetterShots = new ArrayList<String>();
+			missedLetterShots.add(pickedLetter);
+		}
+		else
+		{
+			missedLetterShots = (ArrayList<String>) session.getAttribute("missedLetterShots");
+			missedLetterShots.add(pickedLetter);
+		}
+		
 		session.setAttribute("missedLetterShots", missedLetterShots);
 	}
 
-	private void addPickedLetterToAllUsedLetters(String pickedLetter, HttpSession session)
+	private void addPickedLetterToAllUsedLetters(HttpSession session)
 	{
-		allUsedLetters.add(pickedLetter);
+		
+		String pickedLetter = (String) session.getAttribute("pickedLetter");
+		
+		Object sessionListTest = session.getAttribute("allUsedLetters");
+		
+		ArrayList<String> allUsedLetters;
+		
+		if(sessionListTest == null) 
+		{
+			System.out.println("sessionListTest NULL");
+			allUsedLetters = new ArrayList<String>();
+			
+			allUsedLetters.add(pickedLetter);
+			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters after add(pickedLetter) in NULL: " + Arrays.toString(allUsedLetters.toArray()));		
+		}
+		else
+		{
+			System.out.println("sessionListTest NOT NULL");
+			allUsedLetters = (ArrayList<String>) session.getAttribute("allUsedLetters");
+			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters: " + Arrays.toString(allUsedLetters.toArray()));			
+			allUsedLetters.add(pickedLetter);
+			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters after add(pickedLetter): " + Arrays.toString(allUsedLetters.toArray()));		
+		}
+		
 		session.setAttribute("allUsedLetters", allUsedLetters);
+	
 	}
 
-	private void checkALetter(String pickedLetter, String proverbText, HttpSession session)
+	private void checkALetter(HttpSession session)
 	{
-		isLetterValid = letterChecker.isLetterPresent(pickedLetter, proverbText);
+		String pickedLetter = (String) session.getAttribute("pickedLetter");
+		String proverbText = (String) session.getAttribute("proverbText");
+		
+		boolean isLetterValid = letterChecker.isLetterPresent(pickedLetter, proverbText);
 		session.setAttribute("isLetterValid", isLetterValid);
 	}
 
 	private void pickALetter(HttpServletRequest request, HttpSession session)
 	{
-		pickedLetter = request.getParameter("letter");
+		String pickedLetter = request.getParameter("letter");
 		session.setAttribute("pickedLetter", pickedLetter);
 	}
 
-	private void setCharade(String hiddenProverb, String proverbMeaning, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
+	private void setCharade(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
 	{
+		String proverbMeaning = (String) session.getAttribute("proverbMeaning");
+		String hiddenProverb = (String) session.getAttribute("hiddenProverb");
+		
 		session.setAttribute("CHARADE_MEANING", proverbMeaning);
 		session.setAttribute("CHARADE_HIDDEN", hiddenProverb);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/charades.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private void hideProverb(String proverbText, HttpSession session)
+	private void hideProverb(HttpSession session)
 	{
-		hiddenProverb = proverbHider.hideProverbText(proverbText);
+		String proverbText = (String) session.getAttribute("proverbText");
+		
+		String hiddenProverb = proverbHider.hideProverbText(proverbText);
 		session.setAttribute("hiddenProverb", hiddenProverb);
 	}
 
-	private void getProverbById(int charadeId, HttpSession session)
+	private void getProverbById(HttpSession session)
 	{
-		proverb = proverbDAO.getProverb(charadeId);
+		int proverbId = (int) session.getAttribute("proverbId");
+		
+		Proverb proverb = proverbDAO.getProverb(proverbId);
 		session.setAttribute("proverb", proverb);
-		proverbText = proverb.getProverb();
+		
+		String proverbText = proverb.getProverb();
 		session.setAttribute("proverbText", proverbText);		
-		proverbMeaning = proverb.getMeaning();
+		
+		String proverbMeaning = proverb.getMeaning();
 		session.setAttribute("proverbMeaning", proverbMeaning);
 	}
 	
-	private void removeIdFromTheList(int index, List<Integer> list, int proverbId, HttpSession session) // for no duplicates
+	private void removeIdFromTheList(HttpSession session) // for no duplicates
 	{
-		idList = idRemover.removeId(index, list, proverbId);
+		int index = (int) session.getAttribute("index");
+		List<Integer> idList = (List<Integer>) session.getAttribute("idList");
+		int proverbId = (int) session.getAttribute("proverbId");
+		
+		idList = idRemover.removeId(index, idList, proverbId);
 		session.setAttribute("idList", idList);
 	}
 
-	private void chooseProverbId(List<Integer> list, int index, HttpSession session) 
+	private void chooseProverbId(HttpSession session) 
 	{
-		proverbId = proverbIdChooser.chooseCharadeId(list, index);
+		int index = (int) session.getAttribute("index");
+		List<Integer> idList = (List<Integer>) session.getAttribute("idList");
+		
+		int proverbId = proverbIdChooser.chooseCharadeId(idList, index);
 		session.setAttribute("proverbId", proverbId);
 	}
 	
-	private void getRandomListIndex(int listSize, HttpSession session)
+	private void getRandomListIndex(HttpSession session)
 	{
-		index = randomListIndexChooser.chooseRandomIndex(listSize);
+		List<Integer> sessionIdList = (List<Integer>) session.getAttribute("idList");
+		int listSize = sessionIdList.size();
+		int index = randomListIndexChooser.chooseRandomIndex(listSize);
 		session.setAttribute("index", index);
 	}
 
 	private void getIdList(HttpSession session) 
 	{
-		idList = proverbDAO.getIdList();
+		List<Integer> idList = proverbDAO.getIdList();
 		session.setAttribute("idList", idList);
 	}
 
