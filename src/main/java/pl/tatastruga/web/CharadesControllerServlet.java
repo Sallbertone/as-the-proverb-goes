@@ -24,8 +24,6 @@ public class CharadesControllerServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 
 	private ProverbDAO proverbDAO = new ProverbDAO();
-	
-
 	private RandomListIndexChooser randomListIndexChooser = new RandomListIndexChooser();
 	private ProverbIdChooser proverbIdChooser = new ProverbIdChooser();
 	private IdRemover idRemover = new IdRemover();
@@ -37,14 +35,6 @@ public class CharadesControllerServlet extends HttpServlet
 
 	
 	
-	
-
-
-
-
-
-
-
 	
 
 
@@ -65,31 +55,30 @@ public class CharadesControllerServlet extends HttpServlet
 			case "GETIDLISTANDFIRSTCHARADE":
 				session.setAttribute("isCharadeComplete", false);
 				getIdList(session);
-				getRandomListIndex(session);   //(idList.size(), session);
-				chooseProverbId(session);     //(idList, index, session);
-				getProverbById(session);     //(proverbId, session);
-				removeIdFromTheList(session);    //(index, idList, proverbId, session);
-				hideProverb(session);     //(proverbText, session);
-				setCharade(request, response, session);      //(hiddenProverb, proverbMeaning, request, response, session);   
-			
+				getRandomListIndex(session);
+				chooseProverbId(session);
+				getProverbById(session);
+				removeIdFromTheList(session);
+				hideProverb(session);
+				setCharade(request, response, session);
 				break;
 
 			case "CHECKLETTER":
 				pickALetter(request, session);
-				checkALetter(session);     //(pickedLetter, proverbText, session);
-				addPickedLetterToAllUsedLetters(session);   //(pickedLetter, session);
+				checkALetter(session);
+				addPickedLetterToAllUsedLetters(session);
 
-				if((boolean)session.getAttribute("isLetterValid"))    //(isLetterValid)
+				if((boolean)session.getAttribute("isLetterValid") == true)
 				{
-					revealPickedLetterInHiddenProverb(session);   //(pickedLetter, hiddenProverb, proverbText, session);
-					checkIfCharadeIsComplete(session);      //(hiddenProverb, proverbText, session);
-					setCharadeWithAllUsedLetters(request, response, session);    //(allUsedLetters, hiddenProverb, proverbMeaning, isCharadeComplete, request, response, session);
+					revealPickedLetterInHiddenProverb(session);
+					checkIfCharadeIsComplete(session);
+					setCharadeWithAllUsedLetters(request, response, session);
 				}
 				else
 				{
-					addPickedLetterToMissedLetterShots(session);   //(pickedLetter, session);
+					addPickedLetterToMissedLetterShots(session);  
 					setCharadeWithAllUsedLetters(request, response, session);
-					// to do - changin hangman pics
+					// to do - changing hangman pics
 					// to do - changing remainig points
 				}
 
@@ -108,22 +97,15 @@ public class CharadesControllerServlet extends HttpServlet
 	}
 
 
-
-
-
-
 	private void checkIfCharadeIsComplete(HttpSession session)
 	{
 		String hiddenProverb = (String) session.getAttribute("hiddenProverb");
 		String proverbText = (String) session.getAttribute("proverbText");
 		
 		boolean isCharadeComplete = proverbGuessedChecker.checkIfProverbIsGuessed(hiddenProverb, proverbText);
-		session.setAttribute("isCharadeComplete", isCharadeComplete);   // dać na wejście
+		session.setAttribute("isCharadeComplete", isCharadeComplete);   
 
 	}
-
-
-
 
 
 	private void setCharadeWithAllUsedLetters(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
@@ -140,12 +122,7 @@ public class CharadesControllerServlet extends HttpServlet
 		session.setAttribute("IS_CHARADE_COMPLETE", isCharadeComplete);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/charades.jsp");
 		dispatcher.forward(request, response);
-		
 	}
-
-
-
-
 
 
 	private void revealPickedLetterInHiddenProverb(HttpSession session)
