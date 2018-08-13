@@ -32,7 +32,7 @@ public class CharadesControllerServlet extends HttpServlet
 	private LetterChecker letterChecker = new LetterChecker();
 	private LetterRevealer letterRevealer = new LetterRevealer();
 	private ProverbGuessedChecker proverbGuessedChecker = new ProverbGuessedChecker();
-	
+	private PointsToWinCounter pointsToWinCounter = new PointsToWinCounter();
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -63,6 +63,7 @@ public class CharadesControllerServlet extends HttpServlet
 			case "CHECKLETTER":
 				pickALetter(request, session);
 				checkALetter(session);
+				countPointsToWin(session);
 				addPickedLetterToAllUsedLetters(session);
 
 				if((boolean)session.getAttribute("isLetterValid") == true)
@@ -94,6 +95,17 @@ public class CharadesControllerServlet extends HttpServlet
 	}
 
 
+	private void countPointsToWin(HttpSession session)
+	{
+		int pointsToWin = (int) session.getAttribute("POINTS_TO_WIN");
+		boolean isLetterValid = (boolean) session.getAttribute("isLetterValid");
+		
+		pointsToWin = pointsToWinCounter.countCurrentPointsToWin(pointsToWin, isLetterValid);
+		
+		session.setAttribute("POINTS_TO_WIN", pointsToWin);
+	}
+
+
 	private void checkIfCharadeIsComplete(HttpSession session)
 	{
 		String hiddenProverb = (String) session.getAttribute("hiddenProverb");
@@ -111,11 +123,13 @@ public class CharadesControllerServlet extends HttpServlet
 		String  hiddenProverb = (String) session.getAttribute("hiddenProverb");
 		String proverbMeaning = (String) session.getAttribute("proverbMeaning");
 		boolean isCharadeComplete = (boolean) session.getAttribute("isCharadeComplete");
+		int pointsToWin = (int) session.getAttribute("POINTS_TO_WIN");
 		
 		session.setAttribute("CHARADE_MEANING", proverbMeaning);
 		session.setAttribute("CHARADE_HIDDEN", hiddenProverb);
 		session.setAttribute("ALL_USED_LETTERS", allUsedLetters);
 		session.setAttribute("IS_CHARADE_COMPLETE", isCharadeComplete);
+		session.setAttribute("POINTS_TO_WIN", pointsToWin);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/charades.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -199,6 +213,8 @@ public class CharadesControllerServlet extends HttpServlet
 		
 		session.setAttribute("CHARADE_MEANING", proverbMeaning);
 		session.setAttribute("CHARADE_HIDDEN", hiddenProverb);
+		session.setAttribute("POINTS_TO_WIN", 15);
+		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/charades.jsp");
 		dispatcher.forward(request, response);
 	}

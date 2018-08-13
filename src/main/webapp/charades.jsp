@@ -43,8 +43,8 @@
 		</div>
 		<div id="points">
 			<h2>Punkty do zdobycia:</h2>
-			<h1>15</h1>
-			<c:out value="${sessionScope.POINTS_TO_WIN}"/>
+
+			<h1><c:out value="${sessionScope.POINTS_TO_WIN}"/></h1>
 		</div>
 	</div>
 </section>
