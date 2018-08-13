@@ -32,12 +32,9 @@ public class CharadesControllerServlet extends HttpServlet
 	private LetterChecker letterChecker = new LetterChecker();
 	private LetterRevealer letterRevealer = new LetterRevealer();
 	private ProverbGuessedChecker proverbGuessedChecker = new ProverbGuessedChecker();
-
 	
 	
 	
-
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 
@@ -111,7 +108,6 @@ public class CharadesControllerServlet extends HttpServlet
 	private void setCharadeWithAllUsedLetters(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException
 	{
 		ArrayList<String> allUsedLetters = (ArrayList<String>) session.getAttribute("allUsedLetters");
-		System.out.println("id = " + session.getId() + " and allUsedLetters in setCharadeWithAllUsedLetter: " + Arrays.toString(allUsedLetters.toArray()));
 		String  hiddenProverb = (String) session.getAttribute("hiddenProverb");
 		String proverbMeaning = (String) session.getAttribute("proverbMeaning");
 		boolean isCharadeComplete = (boolean) session.getAttribute("isCharadeComplete");
@@ -168,19 +164,13 @@ public class CharadesControllerServlet extends HttpServlet
 		
 		if(sessionListTest == null) 
 		{
-			System.out.println("sessionListTest NULL");
 			allUsedLetters = new ArrayList<String>();
-			
 			allUsedLetters.add(pickedLetter);
-			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters after add(pickedLetter) in NULL: " + Arrays.toString(allUsedLetters.toArray()));		
 		}
 		else
 		{
-			System.out.println("sessionListTest NOT NULL");
 			allUsedLetters = (ArrayList<String>) session.getAttribute("allUsedLetters");
-			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters: " + Arrays.toString(allUsedLetters.toArray()));			
 			allUsedLetters.add(pickedLetter);
-			System.out.println("id = " + session.getId() + " and allUsedLetters in addPickedLetterToAllUsedLetters after add(pickedLetter): " + Arrays.toString(allUsedLetters.toArray()));		
 		}
 		
 		session.setAttribute("allUsedLetters", allUsedLetters);

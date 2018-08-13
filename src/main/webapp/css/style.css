@@ -219,5 +219,64 @@ button.clicked {
 }
 
 #guess form input[type="submit"]:hover{
+	background-color: green;	
+}
+
+
+
+
+
+#congrats{
+	width: 70%;
+	margin: auto;
+	padding: 5px;
+	text-align: center;
+}
+
+#congrats h1{
+
+	font-size: 29px;
+	color: #008B8B;
+	font-weight: bolder;
+	padding: 10px;
+}
+
+#congrats h2{
+
+	font-size: 19px;
+	color: #008B8B;
+	font-weight: bolder;
+	padding: 10px;
+}
+
+#congrats form input[type="text"]{
+	margin-top: 15px;
+	padding-left: 35px;
+	padding-right: 35px;
+	height: 45px;
+	width: 50%;
+	font-size: 20px;
+	border: 1px solid #008B8B;
+	border-radius: 5px;
+	min-width: 150px;
+}
+
+#congrats form input[type="submit"]{
+	margin-top: 15px;
+	height: 45px;
+
+	font-size: 15px;
+	font-weight: bolder;
+	color: white;
+	text-transform: uppercase;
+	background-color: #ff471a;
+	border: 1px solid black;
+	border-radius: 5px;
+	min-width: 150px;
+	
+	
+}
+
+#congrats form input[type="submit"]:hover{
 	background-color: green;
 }
