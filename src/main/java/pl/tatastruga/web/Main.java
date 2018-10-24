@@ -20,6 +20,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+//PROTOTYPE LOGIC, TESTING DB CONNECTION, WEB SCRAPING DATA and so on - CAN BE DELETED!
 public class Main
 {
 
@@ -31,7 +32,7 @@ public class Main
 //		idList = proverbDAO.getIdList();
 //		System.out.println(idList);
 
-//All code for web sraping and saving data in DB (succesfully used, commented)
+//All code for web scraping and saving data in DB (succesfully used, commented)
 		
 //		ArrayList<String> proverbsList = new ArrayList<String>();
 //		ArrayList<String> meaningsList = new ArrayList<String>();
